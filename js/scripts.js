@@ -1,5 +1,6 @@
 $(function(){
 
+
   function Register (name,initial){
     this.inputName = name;
     this.inputInitial = initial;
@@ -9,8 +10,14 @@ $(function(){
   function Transaction(deposit,withdraw) {
     this.inputDeposit = deposit;
     this.inputWithdraw = withdraw;
-  }
+  };
 
+  function reset (){
+    $("#username").val("");
+    $("#initial").val("");
+    $("#deposit").val("");
+    $("#withdraw").val("");
+  };
 
   $("form#register").submit(function(event){
     event.preventDefault();
@@ -31,10 +38,9 @@ $(function(){
       return newUser.inputInitial + (Object.values(newUser.transaction[0])[0]) - (Object.values(newUser.transaction[0])[1]);
     };
 
-
     $("#balance").text(newUser.balance());
     console.log(newUser.balance());
+    reset();
     });
-
   });
 });
