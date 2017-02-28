@@ -3,12 +3,14 @@ $(function(){
   function Register (name,initial){
     this.inputName = name;
     this.inputInitial = initial;
-    this.transaction = 0;
+    this.transaction = [];
   };
 
-  Register.prototype.balance = function(deposit){
-    return this.inputInitial = this.inputInitial + deposit;
-  };
+  function Transaction(deposit,withdraw) {
+    this.inputDeposit = deposit;
+    this.inputWithdraw = withdraw;
+  }
+
 
   $("form#register").submit(function(event){
     event.preventDefault();
@@ -21,11 +23,17 @@ $(function(){
 
     $("#transaction").click(function(){
     var depositInput = parseInt($("#deposit").val());
-    var withdrawInput = $("#withdraw").val();
-    var result = newUser.balance(depositInput);
+    var withdrawInput = parseInt($("#withdraw").val());
+    var newTransaction = new Transaction (depositInput,withdrawInput);
+    newUser.transaction.push(newTransaction);
 
-    $("#balance").text(result);
-    console.log(result);
+    newUser.balance = function (){
+      return newUser.inputInitial + (Object.values(newUser.transaction[0])[0]) - (Object.values(newUser.transaction[0])[1]);
+    };
+
+
+    $("#balance").text(newUser.balance());
+    console.log(newUser.balance());
     });
 
   });
